@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Print AccountStatement</title>
+    <link rel="stylesheet" href="static/css/statement.css">
+</head>
+
+<body>
+
+    <div class="printContainer">
+        <div class="printCont">
+            <div class="printHeader">
+                <div class="contentSquare">
+                    <h1>{{ account_statement['customer_full_name'] }}</h1>
+                </div>
+                <div class="contentSquare">
+                    <h2>Account Statement</h2>
+                </div>
+                <div class="contentSquare">
+                    <div class="img">
+                        <img src="Statements_copy/qube_main_logo.png" width="100%">
+                    </div>
+                </div>
+            </div>
+            <div class="printBody">
+                <div class="printContentBox">
+                    <div class="topSquare">
+                        <div class="sect">
+                            <ul>
+                                <li><strong>Print Date:</strong> {{current_date}}</li>
+                                <li><strong>Account Number:</strong> {{ account_statement['account_number'] }}</li>
+                                <li><strong>Period:</strong> {{ account_statement['statement_period'] }}</li>
+                                <li><strong>Branch Name:</strong> {{account_statement['branch_name']}}</li>
+                            </ul>
+                        </div>
+                        <div class="sect">
+                            <ul>
+                                <li><strong>Currency: </strong> {{account_statement['currency']}}</li>
+                                <li><strong>Opening Balance:</strong> {{account_statement['opening_balance']}}</li>
+                                <li><strong>Closing Balance:</strong> {{account_statement['closing_balance']}}</li>
+                                <li><strong>Account Type:</strong> {{account_statement['account_type']}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tableData">
+                        <table>
+                            <tr>
+                                <th>Trans Date</th>
+                                <th>Reference</th>
+                                <th>Value Date</th>
+                                <th>Debit</th>
+                                <th>Credit</th>
+                                <th>Remarks</th>
+                            </tr>
+                            {% if account_statement['statements'] is defined %}
+                                {% for statement in account_statement['statements'] %}
+                                    <tr>
+                                        <td>{{ statement['transaction_date'] }}</td>
+                                        <td>{{ statement['reference'] }}</td>
+                                        <td>{{ statement['value_date'] }}</td>
+                                        <td>{{ statement['amount_debit'] }}</td>
+                                        <td>{{ statement['amount_credit'] }}</td>
+                                        <td>{{ statement['description'] }}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
