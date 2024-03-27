@@ -5,7 +5,7 @@ from fastapi.responses import JSONResponse
 import sys, traceback
 
 #routers
-from .routes import seed
+from routes import seed
 
 app = FastAPI()
 
