@@ -20,14 +20,15 @@ class Admin(Base):
     role = Column(Integer, default=0)
     first_name = Column(String, nullable=True)
     last_name = Column(String, nullable=True)
+    created_by = Column(BigInteger, default=0)
     status = Column(SmallInteger, default=0)
     created_at = Column(TIMESTAMP(timezone=True), nullable=True)
     updated_at = Column(TIMESTAMP(timezone=True), nullable=True)
     deleted_at = Column(TIMESTAMP(timezone=True), nullable=True)
 
 
-def create_admin(db: Session, username: str=None, email: str=None, password: str=None, role: int=0, first_name: str=None, last_name: str=None, status: int=0):
-    admin = Admin(username=username, email=email, password=password, role=role, first_name=first_name, last_name=last_name, status=status, created_at=get_laravel_datetime(), updated_at=get_laravel_datetime())
+def create_admin(db: Session, username: str=None, email: str=None, password: str=None, role: int=0, first_name: str=None, last_name: str=None, created_by: int = 0, status: int=0):
+    admin = Admin(username=username, email=email, password=password, role=role, first_name=first_name, last_name=last_name, created_by=created_by, status=status, created_at=get_laravel_datetime(), updated_at=get_laravel_datetime())
     db.add(admin)
     db.commit()
     db.refresh(admin)
