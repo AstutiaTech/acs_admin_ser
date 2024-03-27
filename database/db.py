@@ -11,7 +11,8 @@ config = load_env_config()
 
 quoted = urllib.parse.quote_plus(config['database_string'])
 
-SQLALCHEMY_DATABASE_URL  = 'mssql+pyodbc:///?odbc_connect={}'.format(quoted)
+# SQLALCHEMY_DATABASE_URL  = 'mssql+pyodbc:///?odbc_connect={}'.format(quoted)
+SQLALCHEMY_DATABASE_URL  = 'postgresql://acs_db:5LV1MmnmAwNR4GmSrCj1ZTh6xtcIGGpt@dpg-cnult8qcn0vc73b7hu6g-a/acs_db'
 # SQLALCHEMY_DATABASE_URL  = "mysql://root:@127.0.0.1/puprplepayapp?charset=utf8mb4"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_recycle=60)
