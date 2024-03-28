@@ -46,6 +46,7 @@ def login_admin(db: Session, field: str=None, password: str=None):
                         'email': admin.email,
                         'role_id': admin.role,
                     }
+                    return payload
                     token = auth.encode_token(user=payload)
                     data = {
                         'access_token': token,
