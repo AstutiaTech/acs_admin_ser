@@ -25,7 +25,7 @@ class Auth_Token(Base):
 
 
 def create_auth_token(db: Session, admin_id: int=0, user_id: int=0, device_id: int=0, token: str=None, status: int=0, expired_at: str=None):
-    auth_token = Auth_Token(admin_id=admin_id, user_id=user_id, token=token, device_id=device_id, status=status, ping=get_laravel_datetime(), expired_at=expired_at, created_at=get_laravel_datetime(), updated_at=get_laravel_datetime())
+    auth_token = Auth_Token(admin_id=admin_id, user_id=user_id, token=token, device_id=device_id, status=status, pinged_at=get_laravel_datetime(), expired_at=expired_at, created_at=get_laravel_datetime(), updated_at=get_laravel_datetime())
     db.add(auth_token)
     db.commit()
     db.refresh(auth_token)
