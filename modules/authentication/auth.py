@@ -12,6 +12,7 @@ auth = AuthHandler()
   
 def login_admin(db: Session, field: str=None, password: str=None):
     admin = admin_login(db=db, field=field)
+    return admin
     if admin is None:
         return {
             'status': False,
