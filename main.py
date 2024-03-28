@@ -6,10 +6,12 @@ import sys, traceback
 
 #routers
 from routes import seed
+from routes.v1.authentication import auth
 
 app = FastAPI()
 
 app.include_router(seed.router)
+app.include_router(auth.router)
 
 async def catch_exceptions_middleware(request: Request, call_next):
     try:

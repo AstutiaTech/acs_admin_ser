@@ -90,6 +90,6 @@ class AuthHandler():
         user = self.decode_token(auth.credentials)
         return user
     
-    def auth_user_wrapper(self, auth: HTTPAuthorizationCredentials = Security(security)):
-        user = self.decode_token(auth.credentials)
-        return user
+    # def auth_user_wrapper(self, auth: HTTPAuthorizationCredentials = Security(security)):
+    #     user = self.decode_token(auth.credentials)
+    #     return user

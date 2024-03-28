@@ -1,6 +1,13 @@
 from pydantic import BaseModel
 from typing import Any, Dict, List, Optional
 
+class ResponseBasicModel(BaseModel):
+    status: bool
+    message: str
+    
+    class Config:
+        orm_mode = True
+
 class ResponseModel(BaseModel):
     status: bool
     message: str
@@ -25,3 +32,9 @@ class ResponseDataListModel(BaseModel):
     class Config:
         orm_mode = True
         
+class ErrorResponse(BaseModel):
+    detail: Optional[str] = None
+    
+    class Config:
+        orm_mode = True
+

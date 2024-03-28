@@ -54,7 +54,8 @@ def login_admin(db: Session, field: str=None, password: str=None):
                         'email': admin.email,
                         'first_name': admin.first_name,
                         'last_name': admin.last_name,
-                        'role': admin.role
+                        'role': admin.role,
+                        'created_at': admin.created_at,
                     }
                     return {
                         'status': True,
@@ -122,7 +123,7 @@ def update_admin_details(db: Session, admin_id: int=0, values: Dict={}, updated_
         'message': 'Success'
     }
 
-def update_admin_password(db: Session, admin_id: int=0, password: str=None, old_password: str = None):
+def update_admin_password(db: Session, admin_id: int=0, password: str=None, password_confirmation: str=None, old_password: str = None):
     admin_info = get_admin_by_id(db=db, id=admin_id)
     if admin_info is None:
         return {
@@ -130,18 +131,24 @@ def update_admin_password(db: Session, admin_id: int=0, password: str=None, old_
             'message': 'Not found'
         }
     else:
-        if auth.verify_password(plain_password=old_password, hashed_password=admin_info.password) == True:
-            password = auth.get_password_hash(password=password)
-            da = {
-                'password': password
-            }
-            update_admin(db=db, id=admin_id, values=da)
-            return {
-                'status': True,
-                'message': 'Success'
-            }
-        else:
+        if password != password_confirmation:
             return {
                 'status': False,
-                'message': 'Old Password Incorrect'
+                'message': 'Password not equal with confirm password',
             }
+        else:
+            if auth.verify_password(plain_password=old_password, hashed_password=admin_info.password) == True:
+                password = auth.get_password_hash(password=password)
+                da = {
+                    'password': password
+                }
+                update_admin(db=db, id=admin_id, values=da)
+                return {
+                    'status': True,
+                    'message': 'Success'
+                }
+            else:
+                return {
+                    'status': False,
+                    'message': 'Old Password Incorrect'
+                }
