@@ -27,7 +27,7 @@ async def login(fields: LoginModel, db: Session = Depends(get_db)):
     req = login_admin(db=db, field=fields.field, password=fields.password)
     return req
 
-@router.get("/details", response_model=List[AuthResponseModel], responses={404: {"model": ErrorResponse}, 401: {"model": ErrorResponse}, 403: {"model": ErrorResponse}})
+@router.get("/details", response_model=AuthResponseModel, responses={404: {"model": ErrorResponse}, 401: {"model": ErrorResponse}, 403: {"model": ErrorResponse}})
 async def details(admin=Depends(auth.auth_admin_wrapper), db: Session = Depends(get_db)):
     """
     Loggedin user details
