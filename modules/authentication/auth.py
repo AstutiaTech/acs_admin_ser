@@ -99,6 +99,7 @@ def get_loggedin_admin(db: Session, admin_id: str=None):
         }
     else:
         data = {
+            'access_token': None,
             'id': admin.id,
             'username': admin.username,
             'email': admin.email,
