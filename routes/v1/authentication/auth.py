@@ -19,7 +19,7 @@ async def register(fields: RegisterModel, admin=Depends(auth.auth_admin_wrapper)
     req = register_admin(db=db, role=fields.role, username=fields.username, email=fields, password=fields.password, created_by=admin['id'])
     return req
 
-@router.post("/login")
+@router.post("/login", response_model=AuthResponseModel, responses={404: {"model": ErrorResponse}, 401: {"model": ErrorResponse}, 403: {"model": ErrorResponse}})
 async def login(fields: LoginModel, db: Session = Depends(get_db)):
     """
     Login
