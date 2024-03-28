@@ -47,6 +47,7 @@ class AuthHandler():
             'iat': datetime.now(),
             'sub': user
         }
+        return payload
         expired_at = (datetime.now() + timedelta(days=365, minutes=5)).strftime("%Y/%m/%d %H:%M:%S")
         token = jwt.encode(payload, self.secret, algorithm="HS256")
         admin_id = user['id']
