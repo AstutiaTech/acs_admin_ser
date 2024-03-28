@@ -3,7 +3,7 @@ from typing import List
 from modules.authentication.auth import auth
 from database.schema import LoginModel, RegisterModel, AuthResponseModel, UpdateAdminModel, UpdateAdminPasswordModel, ResponseBasicModel, ErrorResponse
 from modules.authentication.auth import login_admin, register_admin, get_loggedin_admin, update_admin_details, update_admin_password
-from database.db import get_session
+from database.db import get_session, get_db
 from sqlalchemy.orm import Session
 
 router = APIRouter(
@@ -20,7 +20,7 @@ async def register(fields: RegisterModel, admin=Depends(auth.auth_admin_wrapper)
     return req
 
 @router.post("/login")
-async def login(fields: LoginModel, db: Session = Depends(get_session)):
+async def login(fields: LoginModel, db: Session = Depends(get_db)):
     """
     Login
     """
