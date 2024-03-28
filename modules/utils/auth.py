@@ -49,7 +49,6 @@ class AuthHandler():
         }
         expired_at = (datetime.now() + timedelta(days=365, minutes=5)).strftime("%Y/%m/%d %H:%M:%S")
         token = jwt.encode(payload, self.secret, algorithm="HS256")
-        return [token, expired_at, payload]
         admin_id = user['id']
         create_auth_token(db=self.db, admin_id=admin_id, token=token, status=1, expired_at=expired_at)
         return token
