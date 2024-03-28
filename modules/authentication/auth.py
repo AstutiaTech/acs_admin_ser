@@ -105,7 +105,7 @@ def get_loggedin_admin(db: Session, admin_id: str=None):
             'first_name': admin.first_name,
             'last_name': admin.last_name,
             'role': admin.role,
-            'created_at': admin.created_at,
+            # 'created_at': admin.created_at,
         }
         return {
             'status': True,
