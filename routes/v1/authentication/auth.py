@@ -3,7 +3,7 @@ from typing import List
 from modules.authentication.auth import auth
 from database.schema import LoginModel, RegisterModel, AuthResponseModel, UpdateAdminModel, UpdateAdminPasswordModel, ResponseBasicModel, ErrorResponse
 from modules.authentication.auth import login_admin, register_admin, get_loggedin_admin, update_admin_details, update_admin_password
-from database.db import get_session, get_db
+from database.db import get_db
 from sqlalchemy.orm import Session
 
 router = APIRouter(
@@ -12,7 +12,7 @@ router = APIRouter(
 )
 
 @router.post("/register", response_model=AuthResponseModel, responses={404: {"model": ErrorResponse}, 401: {"model": ErrorResponse}, 403: {"model": ErrorResponse}})
-async def register(fields: RegisterModel, admin=Depends(auth.auth_admin_wrapper), db: Session = Depends(get_session)):
+async def register(fields: RegisterModel, admin=Depends(auth.auth_admin_wrapper), db: Session = Depends(get_db)):
     """
     Register new admin
     """
@@ -28,14 +28,14 @@ async def login(fields: LoginModel, db: Session = Depends(get_db)):
     return req
 
 @router.get("/details", response_model=List[AuthResponseModel], responses={404: {"model": ErrorResponse}, 401: {"model": ErrorResponse}, 403: {"model": ErrorResponse}})
-async def details(admin=Depends(auth.auth_admin_wrapper), db: Session = Depends(get_session)):
+async def details(admin=Depends(auth.auth_admin_wrapper), db: Session = Depends(get_db)):
     """
     Loggedin user details
     """
     return get_loggedin_admin(db=db, admin_id=admin['id'])
 
 @router.post("/update", response_model=ResponseBasicModel, responses={404: {"model": ErrorResponse}, 401: {"model": ErrorResponse}, 403: {"model": ErrorResponse}})
-async def update(fields: UpdateAdminModel, admin=Depends(auth.auth_admin_wrapper), db: Session = Depends(get_session)):
+async def update(fields: UpdateAdminModel, admin=Depends(auth.auth_admin_wrapper), db: Session = Depends(get_db)):
     """
     Update admin details
     """
@@ -43,7 +43,7 @@ async def update(fields: UpdateAdminModel, admin=Depends(auth.auth_admin_wrapper
     return req
     
 @router.post("/update_password", response_model=ResponseBasicModel, responses={404: {"model": ErrorResponse}, 401: {"model": ErrorResponse}, 403: {"model": ErrorResponse}})
-async def update_password(fields: UpdateAdminPasswordModel, admin=Depends(auth.auth_admin_wrapper), db: Session = Depends(get_session)):
+async def update_password(fields: UpdateAdminPasswordModel, admin=Depends(auth.auth_admin_wrapper), db: Session = Depends(get_db)):
     """
     Update admin password
     """
