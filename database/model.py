@@ -6,10 +6,10 @@ from models.batteries import Battery, create_battery, update_battery, get_all_ba
 from models.control_boxes import Control_Box, create_control_box, update_control_box, get_all_control_boxes, get_all_control_boxes_by_asset_id, get_control_box_by_id, count_control_boxes, count_control_boxes_by_asset_id
 from models.inverters import Inverter, create_inverter, update_inverter, get_all_inverters, get_all_inverters_by_control_box_id, get_inverter_by_id, count_inverters, count_inverters_by_control_box_id
 from models.logs import Log, create_log, update_log, get_all_logs, get_all_logs_by_asset_id, get_all_logs_by_control_box_id, get_all_logs_by_battery_id, get_all_logs_by_inverter_id, get_all_logs_by_sensor_id, get_all_logs_by_port_id, get_log_by_id, count_logs, count_logs_by_asset_id, count_logs_by_control_box_id, count_logs_by_battery_id, count_logs_by_inverter_id, count_logs_by_sensor_id, count_logs_by_port_id
-from models.owners import Owner, create_owner, update_owner, get_all_owners, get_owner_by_id, count_owners
+from models.owners import Owner, create_owner, update_owner, get_all_owners, get_all_owners_paginated, get_all_owners_by_status_paginated, search_owners, get_owner_by_id, count_owners
 from models.ports import Port, create_port, update_port, get_all_ports, get_all_ports_by_control_box_id, get_port_by_id, count_ports, count_ports_by_control_box_id
 from models.sensors import Sensor, create_sensor, update_sensor, get_all_sensors, get_all_sensors_by_control_box_id, get_sensor_by_id, count_sensors, count_sensors_by_control_box_id
-from models.users import User, create_user, update_user, get_all_users, get_user_by_id, get_user_by_email, get_user_by_username, user_login, count_users, count_user_by_email, count_user_by_username
+from models.users import User, create_user, update_user, get_all_users, get_all_users_paginated, get_users_by_owner_id, get_users_by_owner_id_and_status, get_user_by_id, get_user_by_email, get_user_by_username, search_user, user_login, count_users, count_user_by_email, count_user_by_username
 import string
 import random
 from sqlalchemy.orm import Session
@@ -20,6 +20,25 @@ def id_generator(size=15, chars=string.ascii_uppercase + string.digits):
 def admin_registration_unique_field_check(db: Session, username: str=None, email: str=None):
     username_check = get_admin_by_username(db=db, username=username)
     email_check = get_admin_by_email(db=db, email=email)
+    if username_check is not None:
+        return {
+            'status': False,
+            'message': 'Username already exist',
+        }
+    elif email_check is not None:
+        return {
+            'status': False,
+            'message': 'Email already exist'
+        }
+    else:
+        return {
+            'status': True,
+            'message': 'Validation successful'
+        }
+    
+def user_registration_unique_field_check(db: Session, username: str=None, email: str=None):
+    username_check = get_user_by_username(db=db, username=username)
+    email_check = get_user_by_email(db=db, email=email)
     if username_check is not None:
         return {
             'status': False,

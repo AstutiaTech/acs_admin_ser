@@ -38,6 +38,18 @@ def update_owner(db: Session, id: int=0, values: Dict={}):
 def get_all_owners(db: Session):
     return db.query(Owner).filter(Owner.deleted_at == None).order_by(desc(Owner.created_at)).all()
 
+def get_all_owners_paginated(db: Session):
+    return db.query(Owner).filter(Owner.deleted_at == None).order_by(desc(Owner.created_at))
+    
+def get_all_owners_by_status_paginated(db: Session, status: int=0):
+    return db.query(Owner).filter(and_(Owner.status == status, Owner.deleted_at == None)).order_by(desc(Owner.created_at))
+
+def search_owners(db: Session, query: str=""):
+    if query is None:
+        query = ""
+    query = "%{}%".format(query)
+    return db.query(Owner).filter(and_(Owner.name.like(query), Owner.deleted_at == None)).order_by(desc(Owner.created_at))
+
 def get_owner_by_id(db: Session, id: int=0):
     return db.query(Owner).filter_by(id=id).first()
     

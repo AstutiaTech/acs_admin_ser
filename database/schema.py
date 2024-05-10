@@ -1,2 +1,3 @@
 from schemas.auth import LoginModel, RegisterModel, AuthResponseModel, UpdateAdminModel, UpdateAdminPasswordModel
 from schemas.response_models import ResponseBasicModel, ResponseModel, ResponseDataModel, ResponseDataListModel, ErrorResponse
+from schemas.user_base import CreateOwnerModel, UpdateOwnerModel, OwnerModel, OwnerResponseModel, CreateUserModel, UpdateUserModel, UserModel, UserResponseModel
