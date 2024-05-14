@@ -9,6 +9,7 @@ from routes import seed
 from routes.v1.authentication import auth
 from routes.v1.base import owner
 from routes.v1.base import user
+from routes.v1.base import asset
 
 app = FastAPI()
 
@@ -16,6 +17,7 @@ app.include_router(seed.router)
 app.include_router(auth.router)
 app.include_router(owner.router)
 app.include_router(user.router)
+app.include_router(asset.router)
 
 async def catch_exceptions_middleware(request: Request, call_next):
     try:

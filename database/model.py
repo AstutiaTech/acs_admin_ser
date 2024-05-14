@@ -1,6 +1,6 @@
 from models.admins import Admin, create_admin, update_admin, get_all_admin, get_admin_by_id, get_admin_by_email, get_admin_by_username, admin_login, count_admins
-from models.asset_files import Asset_File, create_asset_file, update_asset_file, get_all_asset_files, get_all_asset_files_by_asset_id, get_asset_file_by_id, count_asset_files, count_asset_files_by_asset_id
-from models.assets import Asset, create_asset, update_asset, get_all_assets, get_asset_by_id, count_assets
+from models.asset_files import Asset_File, create_asset_file, update_asset_file, delete_asset_file, get_all_asset_files, get_all_asset_files_by_asset_id, get_asset_file_by_id, count_asset_files, count_asset_files_by_asset_id
+from models.assets import Asset, create_asset, update_asset, delete_asset, get_all_assets, get_all_assets_paginated, get_all_assets_paginated_with_files, get_assets_by_owner_id, get_assets_by_owner_id_with_files, get_asset_by_id, get_asset_by_id_with_files, count_assets
 from models.auth_tokens import Auth_Token, create_auth_token, update_auth_token, ping_auth_token, get_auth_token_by_id, get_auth_token_by_token, get_auth_token_by_user_id, get_auth_token_by_admin_id, get_last_login_auth_token_by_user_id, get_last_login_auth_token_by_admin_id
 from models.batteries import Battery, create_battery, update_battery, get_all_batteries, get_all_batteries_by_control_box_id, get_battery_by_id, count_batteries, count_batteries_by_control_box_id
 from models.control_boxes import Control_Box, create_control_box, update_control_box, get_all_control_boxes, get_all_control_boxes_by_asset_id, get_control_box_by_id, count_control_boxes, count_control_boxes_by_asset_id

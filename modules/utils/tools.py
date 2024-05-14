@@ -31,6 +31,12 @@ def generate_transaction_reference(tran_type: str = None, rand_type: int = 1, ra
     elif rand_type == 3:
         return str(tran_type).upper() + "_" + rand_lower_string_generator(size=rand_size) + "_" + str(ts)
 
+def generate_basic_reference(rand_size: int=10):
+    dt = datetime.now()
+    ts = datetime.timestamp(dt)
+    ts = int(ts)
+    return rand_upper_string_generator(size=rand_size) + "_" + str(ts)
+
 def process_schema_dictionary(info: Dict={}):
     if bool(info) == False:
         return {}

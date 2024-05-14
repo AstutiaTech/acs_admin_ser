@@ -27,5 +27,8 @@ def load_env_config():
         'vanso_password': os.getenv('VANSO_PASSWORD'),
         'vanso_url': os.getenv('VANSO_URL'),
         'vanso_sender_id': os.getenv('VANSO_SENDER_ID'),
+        'cloudinary_api_key': os.getenv('CLOUDINARY_API_KEY'),
+        'cloudinary_api_secret': os.getenv('CLOUDINARY_API_SECRET'),
+        'cloudinary_cloud_name': os.getenv('CLOUDINARY_CLOUD_NAME'),
     }
 

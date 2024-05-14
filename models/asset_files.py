@@ -1,7 +1,7 @@
 from email.policy import default
 from typing import Dict
-from sqlalchemy import Column, Integer, String, DateTime, BigInteger, DECIMAL, Float, TIMESTAMP, SmallInteger, Text
-from sqlalchemy.orm import Session
+from sqlalchemy import Column, Integer, String, DateTime, BigInteger, DECIMAL, Float, TIMESTAMP, SmallInteger, Text, desc
+from sqlalchemy.orm import Session, relationship
 from sqlalchemy.sql import func
 from sqlalchemy.sql.expression import and_, or_
 from sqlalchemy.sql.schema import ForeignKey
@@ -14,7 +14,7 @@ class Asset_File(Base):
     __tablename__ = "asset_files"
      
     id = Column(BigInteger, primary_key=True, index=True)
-    asset_id = Column(BigInteger, default=0)
+    asset_id = Column(BigInteger, ForeignKey("assets.id"))
     file_type = Column(Integer, default=0)
     file_path = Column(Text, nullable=True)
     file_url = Column(Text, nullable=True)
@@ -22,6 +22,8 @@ class Asset_File(Base):
     created_at = Column(TIMESTAMP(timezone=True), nullable=True)
     updated_at = Column(TIMESTAMP(timezone=True), nullable=True)
     deleted_at = Column(TIMESTAMP(timezone=True), nullable=True)
+
+    asset = relationship("Asset", back_populates="asset_files")
 
 
 def create_asset_file(db: Session, asset_id: int=0, file_type: int=0, file_path: str=None, file_url: str=None, status: int=0):
@@ -37,11 +39,19 @@ def update_asset_file(db: Session, id: int=0, values: Dict={}):
     db.commit()
     return True
 
+def delete_asset_file(db: Session, id: int=0):
+    values = {
+        'deleted_at': get_laravel_datetime(),
+    }
+    db.query(Asset_File).filter_by(id=id).update(values)
+    db.commit()
+    return True
+
 def get_all_asset_files(db: Session):
-    return db.query(Asset_File).filter(Asset_File.deleted_at == None).all()
+    return db.query(Asset_File).filter(Asset_File.deleted_at == None).order_by(desc(Asset_File.created_at))
 
 def get_all_asset_files_by_asset_id(db: Session, asset_id: int=0):
-    return db.query(Asset_File).filter(and_(Asset_File.deleted_at == None, Asset_File.asset_id == asset_id)).all()
+    return db.query(Asset_File).filter(and_(Asset_File.deleted_at == None, Asset_File.asset_id == asset_id)).order_by(desc(Asset_File.created_at))
 
 def get_asset_file_by_id(db: Session, id: int=0):
     return db.query(Asset_File).filter_by(id=id).first()

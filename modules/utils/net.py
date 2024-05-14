@@ -4,9 +4,19 @@ import phonenumbers
 from sqlalchemy.sql.functions import count
 import certifi
 from io import BytesIO
+from fastapi import UploadFile
 from settings.config import load_env_config
+import cloudinary
+from cloudinary.uploader import upload
 
 config = load_env_config()
+
+cloudinary.config(
+    cloud_name=config['cloudinary_cloud_name'],
+    api_key=config['cloudinary_api_key'],
+    api_secret=config['cloudinary_api_secret'],
+    secure = True
+)
 
 def get_ip_info(ip_address: str=None):
     url = "http://www.geoplugin.net/json.gp?ip=" + str(ip_address)
@@ -37,3 +47,38 @@ def check_phone_number_validity(phone_number: str=None, country_code: str=None):
         return phonenumbers.is_possible_number(x)
     except (phonenumbers.phonenumberutil.NumberParseException, Exception) as e:
         return False
+
+def cloudinary_upload_file(image: UploadFile):
+    try:
+        upload_result = upload(image.file)
+        file_url = upload_result['secure_url']
+        return {
+            'status': True,
+            'message': 'Success',
+            'data': file_url,
+        }
+    except Exception as e:
+        return {
+            'status': False,
+            'message': str(e),
+            'data': None
+        }
+    
+def cloudinary_upload_base64(base64_str: str=None):
+    try:
+        if base64_str is None or base64_str == '':
+            raise Exception("Base64 string cannot be empty")
+        else:
+            upload_result = upload(base64_str)
+            file_url = upload_result['secure_url']
+            return {
+                'status': True,
+                'message': 'Success',
+                'data': file_url,
+            }
+    except Exception as e:
+        return {
+            'status': False,
+            'message': str(e),
+            'data': None
+        }
