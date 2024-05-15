@@ -38,11 +38,19 @@ def update_inverter(db: Session, id: int=0, values: Dict={}):
     db.commit()
     return True
 
+def delete_inverter(db: Session, id: int=0):
+    values = {
+        'deleted_at': get_laravel_datetime(),
+    }
+    db.query(Inverter).filter_by(id=id).update(values)
+    db.commit()
+    return True
+
 def get_all_inverters(db: Session):
-    return db.query(Inverter).filter(Inverter.deleted_at == None).all()
+    return db.query(Inverter).filter(Inverter.deleted_at == None)
 
 def get_all_inverters_by_control_box_id(db: Session, control_box_id: int=0):
-    return db.query(Inverter).filter(and_(Inverter.control_box_id == control_box_id, Inverter.deleted_at == None)).all()
+    return db.query(Inverter).filter(and_(Inverter.control_box_id == control_box_id, Inverter.deleted_at == None))
 
 def get_inverter_by_id(db: Session, id: int=0):
     return db.query(Inverter).filter_by(id=id).first()

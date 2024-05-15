@@ -38,11 +38,19 @@ def update_sensor(db: Session, id: int=0, values: Dict={}):
     db.commit()
     return True
 
+def delete_sensor(db: Session, id: int=0):
+    values = {
+        'deleted_at': get_laravel_datetime(),
+    }
+    db.query(Sensor).filter_by(id=id).update(values)
+    db.commit()
+    return True
+
 def get_all_sensors(db: Session):
-    return db.query(Sensor).filter(Sensor.deleted_at == None).all()
+    return db.query(Sensor).filter(Sensor.deleted_at == None)
 
 def get_all_sensors_by_control_box_id(db: Session, control_box_id: int=0):
-    return db.query(Sensor).filter(and_(Sensor.control_box_id == control_box_id, Sensor.deleted_at == None)).all()
+    return db.query(Sensor).filter(and_(Sensor.control_box_id == control_box_id, Sensor.deleted_at == None))
 
 def get_sensor_by_id(db: Session, id: int=0):
     return db.query(Sensor).filter_by(id=id).first()

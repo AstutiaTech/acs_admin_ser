@@ -12,7 +12,6 @@ router = APIRouter(
     tags=["v1_assets"]
 )
 
-
 @router.post("/create", response_model=AssetResponseModel, responses={404: {"model": ErrorResponse}, 401: {"model": ErrorResponse}, 403: {"model": ErrorResponse}})
 async def create(request: Request, fields: CreateAssetModel, admin=Depends(auth.auth_admin_wrapper), db: Session = Depends(get_session)):
     req = insert_new_asset(db=db, owner_id=fields.owner_id, asset_type=fields.asset_type, name=fields.name, description=fields.description, address=fields.address, city=fields.city, state=fields.state, country=fields.country, latitude=fields.latitude, longitude=fields.longitude)

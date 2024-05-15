@@ -27,6 +27,7 @@ class UpdateAssetModel(BaseModel):
     country: Optional[str] = None
     latitude: Optional[str] = None
     longitude: Optional[str] = None
+    status: Optional[int] = None
     
     class Config:
         orm_mode = True

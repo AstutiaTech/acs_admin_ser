@@ -40,11 +40,19 @@ def update_port(db: Session, id: int=0, values: Dict={}):
     db.commit()
     return True
 
+def delete_port(db: Session, id: int=0):
+    values = {
+        'deleted_at': get_laravel_datetime(),
+    }
+    db.query(Port).filter_by(id=id).update(values)
+    db.commit()
+    return True
+
 def get_all_ports(db: Session):
-    return db.query(Port).filter(Port.deleted_at == None).all()
+    return db.query(Port).filter(Port.deleted_at == None)
 
 def get_all_ports_by_control_box_id(db: Session, control_box_id: int=0):
-    return db.query(Port).filter(and_(Port.control_box_id == control_box_id, Port.deleted_at == None)).all()
+    return db.query(Port).filter(and_(Port.control_box_id == control_box_id, Port.deleted_at == None))
 
 def get_port_by_id(db: Session, id: int=0):
     return db.query(Port).filter_by(id=id).first()

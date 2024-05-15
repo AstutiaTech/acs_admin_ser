@@ -39,11 +39,19 @@ def update_battery(db: Session, id: int=0, values: Dict={}):
     db.commit()
     return True
 
+def delete_battery(db: Session, id: int=0):
+    values = {
+        'deleted_at': get_laravel_datetime(),
+    }
+    db.query(Battery).filter_by(id=id).update(values)
+    db.commit()
+    return True
+
 def get_all_batteries(db: Session):
-    return db.query(Battery).filter(Battery.deleted_at == None).all()
+    return db.query(Battery).filter(Battery.deleted_at == None)
 
 def get_all_batteries_by_control_box_id(db: Session, control_box_id: int=0):
-    return db.query(Battery).filter(and_(Battery.control_box_id == control_box_id, Battery.deleted_at == None)).all()
+    return db.query(Battery).filter(and_(Battery.control_box_id == control_box_id, Battery.deleted_at == None))
 
 def get_battery_by_id(db: Session, id: int=0):
     return db.query(Battery).filter_by(id=id).first()

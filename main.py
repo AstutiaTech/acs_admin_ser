@@ -10,6 +10,11 @@ from routes.v1.authentication import auth
 from routes.v1.base import owner
 from routes.v1.base import user
 from routes.v1.base import asset
+from routes.v1.base import control_box
+from routes.v1.base import battery
+from routes.v1.base import inverter
+from routes.v1.base import port
+from routes.v1.base import sensor
 
 app = FastAPI()
 
@@ -18,6 +23,11 @@ app.include_router(auth.router)
 app.include_router(owner.router)
 app.include_router(user.router)
 app.include_router(asset.router)
+app.include_router(control_box.router)
+app.include_router(battery.router)
+app.include_router(inverter.router)
+app.include_router(port.router)
+app.include_router(sensor.router)
 
 async def catch_exceptions_middleware(request: Request, call_next):
     try:
