@@ -9,10 +9,11 @@ config = load_env_config()
 
 # SQLALCHEMY_DATABASE_URL  = "mysql://" + str(config['database_user']) + ":" + str(config['database_pass']) + "@" + str(config['server']) + "/" + str(config['database']) + "?charset=utf8mb4"
 
-quoted = urllib.parse.quote_plus(config['database_string'])
+# quoted = urllib.parse.quote_plus(config['database_string'])
 
 # SQLALCHEMY_DATABASE_URL  = 'mssql+pyodbc:///?odbc_connect={}'.format(quoted)
-SQLALCHEMY_DATABASE_URL  = 'postgresql://acs_db:5LV1MmnmAwNR4GmSrCj1ZTh6xtcIGGpt@dpg-cnult8qcn0vc73b7hu6g-a/acs_db'
+# SQLALCHEMY_DATABASE_URL  = 'postgresql://acs_db:5LV1MmnmAwNR4GmSrCj1ZTh6xtcIGGpt@dpg-cnult8qcn0vc73b7hu6g-a/acs_db'
+SQLALCHEMY_DATABASE_URL  = 'postgresql://acs_db_ohtf_user:oQfK7UUBp3gdXGxrbujjVWYNWyg8Rhem@dpg-cpqme3qj1k6c73bj79p0-a/acs_db_ohtf'
 # SQLALCHEMY_DATABASE_URL  = "mysql://root:@127.0.0.1/puprplepayapp?charset=utf8mb4"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_recycle=60)
