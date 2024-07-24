@@ -13,7 +13,8 @@ config = load_env_config()
 
 # SQLALCHEMY_DATABASE_URL  = 'mssql+pyodbc:///?odbc_connect={}'.format(quoted)
 # SQLALCHEMY_DATABASE_URL  = 'postgresql://acs_db:5LV1MmnmAwNR4GmSrCj1ZTh6xtcIGGpt@dpg-cnult8qcn0vc73b7hu6g-a/acs_db'
-SQLALCHEMY_DATABASE_URL  = 'postgresql://acs_db_ohtf_user:oQfK7UUBp3gdXGxrbujjVWYNWyg8Rhem@dpg-cpqme3qj1k6c73bj79p0-a/acs_db_ohtf'
+# SQLALCHEMY_DATABASE_URL  = 'postgresql://acs_db_ohtf_user:oQfK7UUBp3gdXGxrbujjVWYNWyg8Rhem@dpg-cpqme3qj1k6c73bj79p0-a/acs_db_ohtf'
+SQLALCHEMY_DATABASE_URL  = 'postgresql://astutia_acs:b74sRqqrdgjGvoGEnapNfP92NryLbt7h@dpg-cqgesphu0jms73flifsg-a/astutia_acs'
 # SQLALCHEMY_DATABASE_URL  = "mysql://root:@127.0.0.1/puprplepayapp?charset=utf8mb4"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_recycle=60)

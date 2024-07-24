@@ -21,13 +21,15 @@ class User(Base):
     pin = Column(String, nullable=True)
     role = Column(SmallInteger, default=0)
     status = Column(SmallInteger, default=0)
+    created_by = Column(BigInteger, default=0)
+    updated_by = Column(BigInteger, default=0)
     created_at = Column(TIMESTAMP(timezone=True), nullable=True)
     updated_at = Column(TIMESTAMP(timezone=True), nullable=True)
     deleted_at = Column(TIMESTAMP(timezone=True), nullable=True)
 
 
-def create_user(db: Session, owner_id: int=0, username: str=None, email: str=None, password: str=None, pin: str=None, role: int=0, status: int=0):
-    user = User(owner_id=owner_id, username=username, email=email, password=password, pin=pin, role=role, status=status, created_at=get_laravel_datetime(), updated_at=get_laravel_datetime())
+def create_user(db: Session, owner_id: int=0, username: str=None, email: str=None, password: str=None, pin: str=None, role: int=0, status: int=0, created_by: int=0, updated_by: int=0):
+    user = User(owner_id=owner_id, username=username, email=email, password=password, pin=pin, role=role, status=status, created_by=created_by, updated_by=updated_by, created_at=get_laravel_datetime(), updated_at=get_laravel_datetime())
     db.add(user)
     db.commit()
     db.refresh(user)

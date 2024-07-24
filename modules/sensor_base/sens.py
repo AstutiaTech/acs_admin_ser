@@ -4,17 +4,18 @@ from sqlalchemy.orm import Session
 from fastapi_pagination.ext.sqlalchemy import paginate
 from modules.utils.tools import process_schema_dictionary, generate_basic_reference
 
-def insert_new_sensor(db: Session, control_box_id: int=0, sensor_type: int=0, voltage_input: str=None, voltage_output: str=None):
+def insert_new_sensor(db: Session, control_box_id: int=0, sensor_type: int=0, voltage_input: str=None, voltage_output: str=None, created_by: int=0):
     reference = generate_basic_reference()
-    sensor = create_sensor(db=db, control_box_id=control_box_id, reference=reference, sensor_type=sensor_type, voltage_input=voltage_input, voltage_output=voltage_output, status=1)
+    sensor = create_sensor(db=db, control_box_id=control_box_id, reference=reference, sensor_type=sensor_type, voltage_input=voltage_input, voltage_output=voltage_output, status=1, created_by=created_by)
     return {
         'status': True,
         'message': 'Success',
         'data': sensor,
     }
 
-def update_existing_sensor(db: Session, sensor_id: int=0, values: Dict={}):
+def update_existing_sensor(db: Session, sensor_id: int=0, values: Dict={}, updated_by: int=0):
     values = process_schema_dictionary(info=values)
+    values['updated_by'] = updated_by
     update_sensor(db=db, id=sensor_id, values=values)
     return {
         'status': True,

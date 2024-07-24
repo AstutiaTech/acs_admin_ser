@@ -20,13 +20,16 @@ class Sensor(Base):
     voltage_input = Column(String, nullable=True)
     voltage_output = Column(String, nullable=True)
     status = Column(SmallInteger, default=0)
+    status = Column(SmallInteger, default=0)
+    created_by = Column(BigInteger, default=0)
+    updated_by = Column(BigInteger, default=0)
     created_at = Column(TIMESTAMP(timezone=True), nullable=True)
     updated_at = Column(TIMESTAMP(timezone=True), nullable=True)
     deleted_at = Column(TIMESTAMP(timezone=True), nullable=True)
 
 
-def create_sensor(db: Session, control_box_id: int=0, reference: str=None, sensor_type: int=0, voltage_input: str=None, voltage_output: str=None, status: int=0):
-    sensor = Sensor(control_box_id=control_box_id, reference=reference, sensor_type=sensor_type, voltage_input=voltage_input, voltage_output=voltage_output, status=status, created_at=get_laravel_datetime(), updated_at=get_laravel_datetime())
+def create_sensor(db: Session, control_box_id: int=0, reference: str=None, sensor_type: int=0, voltage_input: str=None, voltage_output: str=None, status: int=0, created_by: int=0, updated_by: int=0):
+    sensor = Sensor(control_box_id=control_box_id, reference=reference, sensor_type=sensor_type, voltage_input=voltage_input, voltage_output=voltage_output, status=status, created_by=created_by, updated_by=updated_by, created_at=get_laravel_datetime(), updated_at=get_laravel_datetime())
     db.add(sensor)
     db.commit()
     db.refresh(sensor)

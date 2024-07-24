@@ -21,13 +21,15 @@ class Battery(Base):
     voltage = Column(String, nullable=True)
     capacity = Column(String, nullable=True)
     status = Column(SmallInteger, default=0)
+    created_by = Column(BigInteger, default=0)
+    updated_by = Column(BigInteger, default=0)
     created_at = Column(TIMESTAMP(timezone=True), nullable=True)
     updated_at = Column(TIMESTAMP(timezone=True), nullable=True)
     deleted_at = Column(TIMESTAMP(timezone=True), nullable=True)
 
 
-def create_battery(db: Session, control_box_id: int=0, reference: str=None, state_of_charge: str=None, current_drawn: str=None, voltage: str=None, capacity: str=None, status: int=0):
-    battery = Battery(control_box_id=control_box_id, reference=reference, state_of_charge=state_of_charge, current_drawn=current_drawn, voltage=voltage, capacity=capacity, status=status, created_at=get_laravel_datetime(), updated_at=get_laravel_datetime())
+def create_battery(db: Session, control_box_id: int=0, reference: str=None, state_of_charge: str=None, current_drawn: str=None, voltage: str=None, capacity: str=None, status: int=0, created_by: int=0, updated_by: int=0):
+    battery = Battery(control_box_id=control_box_id, reference=reference, state_of_charge=state_of_charge, current_drawn=current_drawn, voltage=voltage, capacity=capacity, status=status, created_by=created_by, updated_by=updated_by, created_at=get_laravel_datetime(), updated_at=get_laravel_datetime())
     db.add(battery)
     db.commit()
     db.refresh(battery)

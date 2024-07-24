@@ -5,6 +5,7 @@ from typing import List, Dict
 from settings.config import load_env_config
 import dateparser
 import time
+import re
 
 config = load_env_config()
 
@@ -60,3 +61,11 @@ def process_datetime_string(time_str: str = None):
     else:
         return dateparser.parse(str(time_str), date_formats=['%d-%m-%Y %H:%M:%S'])
     
+def slugify(input_string: str=None, strip: str='-'):
+    if input_string is None:
+        return None
+    else:
+        input_string = input_string.encode('ascii', 'ignore').decode('ascii').lower()
+        slug = re.sub(r'[^a-z0-9]+', '-', input_string)
+        slug = slug.strip(strip)
+        return slug

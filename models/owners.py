@@ -17,13 +17,15 @@ class Owner(Base):
     name = Column(String, nullable=True)
     description = Column(String, nullable=True)
     status = Column(SmallInteger, default=0)
+    created_by = Column(BigInteger, default=0)
+    updated_by = Column(BigInteger, default=0)
     created_at = Column(TIMESTAMP(timezone=True), nullable=True)
     updated_at = Column(TIMESTAMP(timezone=True), nullable=True)
     deleted_at = Column(TIMESTAMP(timezone=True), nullable=True)
 
 
-def create_owner(db: Session, name: str=None, description: str=None, status: int=0):
-    owner = Owner(name=name, description=description, status=status, created_at=get_laravel_datetime(), updated_at=get_laravel_datetime())
+def create_owner(db: Session, name: str=None, description: str=None, status: int=0, created_by: int=0, updated_by: int=0):
+    owner = Owner(name=name, description=description, status=status, created_by=created_by, updated_by=updated_by, created_at=get_laravel_datetime(), updated_at=get_laravel_datetime())
     db.add(owner)
     db.commit()
     db.refresh(owner)

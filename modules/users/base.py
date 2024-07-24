@@ -7,16 +7,17 @@ from modules.utils.auth import AuthHandler
 
 auth = AuthHandler()
 
-def insert_new_owner(db: Session, name: str=None, description: str=None):
-    owner = create_owner(db=db, name=name, description=description, status=1)
+def insert_new_owner(db: Session, name: str=None, description: str=None, created_by: int=0):
+    owner = create_owner(db=db, name=name, description=description, status=1, created_by=created_by)
     return {
         'status': True,
         'message': 'Success',
         'data': owner,
     }
 
-def update_existing_owner(db: Session, owner_id: int=0, values: Dict={}):
+def update_existing_owner(db: Session, owner_id: int=0, values: Dict={}, updated_by: int=0):
     values = process_schema_dictionary(info=values)
+    values['updated_by'] = updated_by
     update_owner(db=db, id=owner_id, values=values)
     return {
         'status': True,
@@ -50,7 +51,7 @@ def retrieve_single_owner(db: Session, owner_id: int=0):
             'data': owner
         }
     
-def create_new_user(db: Session, owner_id: int=0, username: str=None, email: str=None, password: str=None, role: int=0):
+def create_new_user(db: Session, owner_id: int=0, username: str=None, email: str=None, password: str=None, role: int=0, created_by: int=0):
     check = user_registration_unique_field_check(db=db, username=username, email=email)
     if check['status'] == False:
         return {
@@ -61,15 +62,16 @@ def create_new_user(db: Session, owner_id: int=0, username: str=None, email: str
     else:
         hashed_password = auth.get_password_hash(password=password)
         hashed_pin = auth.get_password_hash(password="000000")
-        user = create_user(db=db, owner_id=owner_id, username=username, email=email, password=hashed_password, pin=hashed_pin, role=role, status=1)
+        user = create_user(db=db, owner_id=owner_id, username=username, email=email, password=hashed_password, pin=hashed_pin, role=role, status=1, created_by=created_by)
         return {
             'status': True,
             'message': 'Success',
             'data': user,
         }
     
-def update_existing_user(db: Session, user_id: int, values: Dict={}):
+def update_existing_user(db: Session, user_id: int, values: Dict={}, updated_by: int=0):
     values = process_schema_dictionary(info=values)
+    values['updated_by'] = updated_by
     if 'password' in values:
         values['password'] = auth.get_password_hash(password=values['password'])
     if 'pin' in values:

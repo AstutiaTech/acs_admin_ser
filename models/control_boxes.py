@@ -21,13 +21,15 @@ class Control_Box(Base):
     comms_sim_card_number = Column(String, nullable=True)
     comms_wifi_provider = Column(String, nullable=True)
     status = Column(SmallInteger, default=0)
+    created_by = Column(BigInteger, default=0)
+    updated_by = Column(BigInteger, default=0)
     created_at = Column(TIMESTAMP(timezone=True), nullable=True)
     updated_at = Column(TIMESTAMP(timezone=True), nullable=True)
     deleted_at = Column(TIMESTAMP(timezone=True), nullable=True)
 
 
-def create_control_box(db: Session, asset_id: int=0, reference: str=None, private_key: str=None, comms_sim_card_value: str=None, comms_sim_card_number: str=None, comms_wifi_provider: str=None, status: int=0):
-    cb = Control_Box(asset_id=asset_id, reference=reference, private_key=private_key, comms_sim_card_value=comms_sim_card_value, comms_sim_card_number=comms_sim_card_number, comms_wifi_provider=comms_wifi_provider, status=status, created_at=get_laravel_datetime(), updated_at=get_laravel_datetime())
+def create_control_box(db: Session, asset_id: int=0, reference: str=None, private_key: str=None, comms_sim_card_value: str=None, comms_sim_card_number: str=None, comms_wifi_provider: str=None, status: int=0, created_by: int=0, updated_by: int=0):
+    cb = Control_Box(asset_id=asset_id, reference=reference, private_key=private_key, comms_sim_card_value=comms_sim_card_value, comms_sim_card_number=comms_sim_card_number, comms_wifi_provider=comms_wifi_provider, status=status, created_by=created_by, updated_by=updated_by, created_at=get_laravel_datetime(), updated_at=get_laravel_datetime())
     db.add(cb)
     db.commit()
     db.refresh(cb)

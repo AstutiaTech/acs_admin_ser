@@ -13,13 +13,13 @@ router = APIRouter(
 
 @router.post("/create", response_model=OwnerResponseModel, responses={404: {"model": ErrorResponse}, 401: {"model": ErrorResponse}, 403: {"model": ErrorResponse}})
 async def create_owner(request: Request, fields: CreateOwnerModel, admin=Depends(auth.auth_admin_wrapper), db: Session = Depends(get_session)):
-    req = insert_new_owner(db=db, name=fields.name, description=fields.description)
+    req = insert_new_owner(db=db, name=fields.name, description=fields.description, created_by=admin['id'])
     return req
 
 @router.post("/update/{owner_id}", response_model=ResponseBasicModel, responses={404: {"model": ErrorResponse}, 401: {"model": ErrorResponse}, 403: {"model": ErrorResponse}})
 async def update_owner(request: Request, fields: UpdateOwnerModel, admin=Depends(auth.auth_admin_wrapper), db: Session = Depends(get_session), owner_id: int=0):
     updict = fields.model_dump()
-    req = update_existing_owner(db=db, owner_id=owner_id, values=updict)
+    req = update_existing_owner(db=db, owner_id=owner_id, values=updict, updated_by=admin['id'])
     return req
 
 @router.get("/get_all", response_model=Page[OwnerModel], responses={404: {"model": ErrorResponse}, 401: {"model": ErrorResponse}, 403: {"model": ErrorResponse}})

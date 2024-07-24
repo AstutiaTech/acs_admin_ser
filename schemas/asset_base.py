@@ -2,9 +2,18 @@ from pydantic import BaseModel
 from typing import Any, Dict, List, Optional
 from datetime import datetime
 
+class CreateAssetTypeModel(BaseModel):
+    name: str
+    description: Optional[str] = None
+    file_url: str
+    value_code: str
+    
+    class Config:
+        orm_mode = True
+
 class CreateAssetModel(BaseModel):
     owner_id: int
-    asset_type: int
+    asset_type_id: int
     name: str
     description: Optional[str] = None
     address: Optional[str] = None
@@ -13,6 +22,16 @@ class CreateAssetModel(BaseModel):
     country: Optional[str] = None
     latitude: Optional[str] = None
     longitude: Optional[str] = None
+    
+    class Config:
+        orm_mode = True
+
+class UpdateAssetTypeModel(BaseModel):
+    asset_type_id: int
+    name: Optional[str] = None
+    description: Optional[str] = None
+    file_url: Optional[str] = None
+    value_code: Optional[str] = None
     
     class Config:
         orm_mode = True
@@ -44,6 +63,20 @@ class UpdateAssetFileBase64Model(BaseModel):
     file_id: int
     base64_str: Optional[str] = None
     status: Optional[int] = None
+    
+    class Config:
+        orm_mode = True
+
+class AssetTypeModel(BaseModel):
+    id: int
+    name: str
+    description: Optional[str] = None
+    file_url: Optional[str] = None
+    slug: Optional[str] = None
+    value_code: Optional[str] = None
+    status: Optional[int] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
     
     class Config:
         orm_mode = True
@@ -81,6 +114,14 @@ class AssetFileModel(BaseModel):
     class Config:
         orm_mode = True
     
+class AssetTypeResponseModel(BaseModel):
+    status: bool
+    message: str
+    data: Optional[AssetTypeModel] = None
+
+    class Config:
+        orm_mode = True
+
 class AssetResponseModel(BaseModel):
     status: bool
     message: str

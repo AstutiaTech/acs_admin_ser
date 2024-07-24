@@ -15,13 +15,13 @@ router = APIRouter(
 
 @router.post("/create", response_model=SensorResponseModel, responses={404: {"model": ErrorResponse}, 401: {"model": ErrorResponse}, 403: {"model": ErrorResponse}})
 async def create_sensor(request: Request, fields: CreateSensorModel, admin=Depends(auth.auth_admin_wrapper), db: Session = Depends(get_session)):
-    req = insert_new_sensor(db=db, control_box_id=fields.control_box_id, sensor_type=fields.sensor_type, voltage_input=fields.voltage_input, voltage_output=fields.voltage_output)
+    req = insert_new_sensor(db=db, control_box_id=fields.control_box_id, sensor_type=fields.sensor_type, voltage_input=fields.voltage_input, voltage_output=fields.voltage_output, created_by=admin['id'])
     return req
 
 @router.post("/update/{sensor_id}", response_model=ResponseBasicModel, responses={404: {"model": ErrorResponse}, 401: {"model": ErrorResponse}, 403: {"model": ErrorResponse}})
 async def update_sensor(request: Request, fields: UpdateSensorModel, admin=Depends(auth.auth_admin_wrapper), db: Session = Depends(get_session), sensor_id: int=0):
     updict = fields.model_dump()
-    req = update_existing_sensor(db=db, sensor_id=sensor_id, values=updict)
+    req = update_existing_sensor(db=db, sensor_id=sensor_id, values=updict, updated_by=admin['id'])
     return req
 
 @router.get("/get_all", response_model=Page[SensorModel], responses={404: {"model": ErrorResponse}, 401: {"model": ErrorResponse}, 403: {"model": ErrorResponse}})

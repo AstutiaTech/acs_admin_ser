@@ -4,17 +4,18 @@ from sqlalchemy.orm import Session
 from fastapi_pagination.ext.sqlalchemy import paginate
 from modules.utils.tools import process_schema_dictionary, generate_basic_reference
 
-def insert_new_battery(db:Session, control_box_id: int=0, state_of_charge: str=None, current_drawn: str=None, voltage: str=None, capacity: str=None):
+def insert_new_battery(db:Session, control_box_id: int=0, state_of_charge: str=None, current_drawn: str=None, voltage: str=None, capacity: str=None, created_by: int=0):
     reference = generate_basic_reference()
-    battery = create_battery(db=db, control_box_id=control_box_id, reference=reference, state_of_charge=state_of_charge, current_drawn=current_drawn, voltage=voltage, capacity=capacity, status=0)
+    battery = create_battery(db=db, control_box_id=control_box_id, reference=reference, state_of_charge=state_of_charge, current_drawn=current_drawn, voltage=voltage, capacity=capacity, status=0, created_by=created_by)
     return {
         'status': True,
         'message': 'Success',
         'data': battery,
     }
 
-def update_existing_battery(db: Session, battery_id: int=0, values: Dict={}):
+def update_existing_battery(db: Session, battery_id: int=0, values: Dict={}, updated_by: int=0):
     values = process_schema_dictionary(info=values)
+    values['updated_by'] = updated_by
     update_battery(db=db, id=battery_id, values=values)
     return {
         'status': True,

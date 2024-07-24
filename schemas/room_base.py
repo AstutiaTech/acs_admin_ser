@@ -2,7 +2,8 @@ from pydantic import BaseModel
 from typing import Any, Dict, List, Optional
 from datetime import datetime
 
-class CreatePortTypeModel(BaseModel):
+class CreateRoomTypeModel(BaseModel):
+    asset_type_id: int
     name: str
     description: Optional[str] = None
     file_url: str
@@ -11,20 +12,17 @@ class CreatePortTypeModel(BaseModel):
     class Config:
         orm_mode = True
 
-class CreatePortModel(BaseModel):
-    room_id: int
+class CreateRoomModel(BaseModel):
+    asset_id: int
+    room_type_id: int
     control_box_id: int
-    port_type_id: int
-    appliance_name: Optional[str] = None
-    room_name: Optional[str] = None
-    power_rating: Optional[str] = None
-    current_drawn: Optional[str] = None
-    priority_status: Optional[int] = 0
+    name: str
+    description: Optional[str] = None
     
     class Config:
         orm_mode = True
 
-class UpdatePortTypeModel(BaseModel):
+class UpdateRoomTypeModel(BaseModel):
     name: Optional[str] = None
     description: Optional[str] = None
     file_url: Optional[str] = None
@@ -34,22 +32,20 @@ class UpdatePortTypeModel(BaseModel):
     class Config:
         orm_mode = True
 
-class UpdatePortModel(BaseModel):
-    appliance_name: Optional[str] = None
-    room_name: Optional[str] = None
-    power_rating: Optional[str] = None
-    current_drawn: Optional[str] = None
-    priority_status: Optional[int] = None
+class UpdateRoomModel(BaseModel):
+    name: Optional[str] = None
+    description: Optional[str] = None
     status: Optional[int] = None
     
     class Config:
         orm_mode = True
 
-class PortTypeModel(BaseModel):
+class RoomTypeModel(BaseModel):
     id: int
     name: Optional[str] = None
     description: Optional[str] = None
     file_url: Optional[str] = None
+    slug: Optional[str] = None
     value_code: Optional[str] = None
     status: Optional[int] = None
     created_at: Optional[datetime] = None
@@ -58,16 +54,13 @@ class PortTypeModel(BaseModel):
     class Config:
         orm_mode = True
 
-
-class PortModel(BaseModel):
+class RoomModel(BaseModel):
     id: int
-    control_box_id: int
-    reference: str
-    appliance_name: Optional[str] = None
-    room_name: Optional[str] = None
-    power_rating: Optional[str] = None
-    current_drawn: Optional[str] = None
-    priority_status: Optional[int] = None
+    asset_id: Optional[int] = None
+    room_type_id: Optional[int] = None
+    control_box_id: Optional[int] = None
+    name: Optional[str] = None
+    description: Optional[str] = None
     status: Optional[int] = None
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
@@ -75,18 +68,18 @@ class PortModel(BaseModel):
     class Config:
         orm_mode = True
 
-class PortTypeResponseModel(BaseModel):
+class RoomTypeResponseModel(BaseModel):
     status: bool
     message: str
-    data: Optional[PortTypeModel] = None
+    data: Optional[RoomTypeModel] = None
 
     class Config:
         orm_mode = True
         
-class PortResponseModel(BaseModel):
+class RoomResponseModel(BaseModel):
     status: bool
     message: str
-    data: Optional[PortModel] = None
+    data: Optional[RoomModel] = None
 
     class Config:
         orm_mode = True

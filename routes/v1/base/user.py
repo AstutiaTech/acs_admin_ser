@@ -13,13 +13,13 @@ router = APIRouter(
 
 @router.post("/create", response_model=UserResponseModel, responses={404: {"model": ErrorResponse}, 401: {"model": ErrorResponse}, 403: {"model": ErrorResponse}})
 async def create_user(request: Request, fields: CreateUserModel, admin=Depends(auth.auth_admin_wrapper), db: Session = Depends(get_session)):
-    req = create_new_user(db=db, owner_id=fields.owner_id, username=fields.username, email=fields.email, password=fields.password, role=fields.role)
+    req = create_new_user(db=db, owner_id=fields.owner_id, username=fields.username, email=fields.email, password=fields.password, role=fields.role, created_by=admin['id'])
     return req
 
 @router.post("/update/{user_id}", response_model=ResponseBasicModel, responses={404: {"model": ErrorResponse}, 401: {"model": ErrorResponse}, 403: {"model": ErrorResponse}})
 async def update_user(request: Request, fields: UpdateUserModel, admin=Depends(auth.auth_admin_wrapper), db: Session = Depends(get_session), user_id: int=0):
     updict = fields.model_dump()
-    req = update_existing_user(db=db, user_id=user_id, values=updict)
+    req = update_existing_user(db=db, user_id=user_id, values=updict, updated_by=admin['id'])
     return req
 
 @router.get("/get_all", response_model=Page[UserModel], responses={404: {"model": ErrorResponse}, 401: {"model": ErrorResponse}, 403: {"model": ErrorResponse}})

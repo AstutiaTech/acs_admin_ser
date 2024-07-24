@@ -11,6 +11,7 @@ from routes.v1.base import owner
 from routes.v1.base import user
 from routes.v1.base import asset
 from routes.v1.base import control_box
+from routes.v1.base import room
 from routes.v1.base import battery
 from routes.v1.base import inverter
 from routes.v1.base import port
@@ -24,6 +25,7 @@ app.include_router(owner.router)
 app.include_router(user.router)
 app.include_router(asset.router)
 app.include_router(control_box.router)
+app.include_router(room.router)
 app.include_router(battery.router)
 app.include_router(inverter.router)
 app.include_router(port.router)

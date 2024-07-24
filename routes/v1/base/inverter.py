@@ -15,13 +15,13 @@ router = APIRouter(
 
 @router.post("/create", response_model=InverterResponseModel, responses={404: {"model": ErrorResponse}, 401: {"model": ErrorResponse}, 403: {"model": ErrorResponse}})
 async def create_inverter(request: Request, fields: CreateInverterModel, admin=Depends(auth.auth_admin_wrapper), db: Session = Depends(get_session)):
-    req = insert_new_inverter(db=db, control_box_id=fields.control_box_id, capacity=fields.capacity, voltage_input=fields.voltage_input, voltage_output=fields.voltage_output)
+    req = insert_new_inverter(db=db, control_box_id=fields.control_box_id, capacity=fields.capacity, voltage_input=fields.voltage_input, voltage_output=fields.voltage_output, created_by=admin['id'])
     return req
 
 @router.post("/update/{inverter_id}", response_model=ResponseBasicModel, responses={404: {"model": ErrorResponse}, 401: {"model": ErrorResponse}, 403: {"model": ErrorResponse}})
 async def update_inverter(request: Request, fields: UpdateInverterModel, admin=Depends(auth.auth_admin_wrapper), db: Session = Depends(get_session), inverter_id: int=0):
     updict = fields.model_dump()
-    req = update_existing_inverter(db=db, inverter_id=inverter_id, values=updict)
+    req = update_existing_inverter(db=db, inverter_id=inverter_id, values=updict, updated_by=admin['id'])
     return req
 
 @router.get("/get_all", response_model=Page[InverterModel], responses={404: {"model": ErrorResponse}, 401: {"model": ErrorResponse}, 403: {"model": ErrorResponse}})

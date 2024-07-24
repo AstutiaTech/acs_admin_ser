@@ -14,13 +14,13 @@ router = APIRouter(
 
 @router.post("/create", response_model=BatteryResponseModel, responses={404: {"model": ErrorResponse}, 401: {"model": ErrorResponse}, 403: {"model": ErrorResponse}})
 async def create_battery(request: Request, fields: CreateBatteryModel, admin=Depends(auth.auth_admin_wrapper), db: Session = Depends(get_session)):
-    req = insert_new_battery(db=db, control_box_id=fields.control_box_id, state_of_charge=fields.state_of_charge, current_drawn=fields.current_drawn, voltage=fields.voltage, capacity=fields.capacity)
+    req = insert_new_battery(db=db, control_box_id=fields.control_box_id, state_of_charge=fields.state_of_charge, current_drawn=fields.current_drawn, voltage=fields.voltage, capacity=fields.capacity, created_by=admin['id'])
     return req
 
 @router.post("/update/{battery_id}", response_model=ResponseBasicModel, responses={404: {"model": ErrorResponse}, 401: {"model": ErrorResponse}, 403: {"model": ErrorResponse}})
 async def update_battery(request: Request, fields: UpdateBatteryModel, admin=Depends(auth.auth_admin_wrapper), db: Session = Depends(get_session), battery_id: int=0):
     updict = fields.model_dump()
-    req = update_existing_battery(db=db, battery_id=battery_id, values=updict)
+    req = update_existing_battery(db=db, battery_id=battery_id, values=updict, updated_by=admin['id'])
     return req
 
 @router.get("/get_all", response_model=Page[BatteryModel], responses={404: {"model": ErrorResponse}, 401: {"model": ErrorResponse}, 403: {"model": ErrorResponse}})

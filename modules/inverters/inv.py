@@ -4,17 +4,18 @@ from sqlalchemy.orm import Session
 from fastapi_pagination.ext.sqlalchemy import paginate
 from modules.utils.tools import process_schema_dictionary, generate_basic_reference
 
-def insert_new_inverter(db: Session, control_box_id: int=0, capacity: str=None, voltage_input: str=None, voltage_output: str=None):
+def insert_new_inverter(db: Session, control_box_id: int=0, capacity: str=None, voltage_input: str=None, voltage_output: str=None, created_by: int=0):
     reference = generate_basic_reference()
-    inverter = create_inverter(db=db, control_box_id=control_box_id, reference=reference, voltage_input=voltage_input, voltage_output=voltage_output, capacity=capacity, status=0)
+    inverter = create_inverter(db=db, control_box_id=control_box_id, reference=reference, voltage_input=voltage_input, voltage_output=voltage_output, capacity=capacity, status=0, created_by=created_by)
     return {
         'status': True,
         'message': 'Success',
         'data': inverter,
     }
 
-def update_existing_inverter(db: Session, inverter_id: int=0, values: Dict={}):
+def update_existing_inverter(db: Session, inverter_id: int=0, values: Dict={}, updated_by: int=0):
     values = process_schema_dictionary(info=values)
+    values['updated_by'] = updated_by
     update_inverter(db=db, id=inverter_id, values=values)
     return {
         'status': True,

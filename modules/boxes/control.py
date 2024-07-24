@@ -4,17 +4,18 @@ from sqlalchemy.orm import Session
 from fastapi_pagination.ext.sqlalchemy import paginate
 from modules.utils.tools import process_schema_dictionary, generate_basic_reference
 
-def insert_control_box(db: Session, asset_id: int=0, private_key: str=None, comms_sim_card_value: str=None, comms_sim_card_number: str=None, comms_wifi_provider: str=None):
+def insert_control_box(db: Session, asset_id: int=0, private_key: str=None, comms_sim_card_value: str=None, comms_sim_card_number: str=None, comms_wifi_provider: str=None, created_by: int=0):
     reference = generate_basic_reference()
-    control_box = create_control_box(db=db, asset_id=asset_id, reference=reference, private_key=private_key, comms_sim_card_value=comms_sim_card_value, comms_sim_card_number=comms_sim_card_number, comms_wifi_provider=comms_wifi_provider, status=1)
+    control_box = create_control_box(db=db, asset_id=asset_id, reference=reference, private_key=private_key, comms_sim_card_value=comms_sim_card_value, comms_sim_card_number=comms_sim_card_number, comms_wifi_provider=comms_wifi_provider, status=1, created_by=created_by)
     return {
         'status': True,
         'message': 'Success',
         'data': control_box,
     }
 
-def update_existing_control_box(db: Session, control_box_id: int=0, values: Dict={}):
+def update_existing_control_box(db: Session, control_box_id: int=0, values: Dict={}, updated_by: int=0):
     values = process_schema_dictionary(info=values)
+    values['updated_by'] = updated_by
     update_control_box(db=db, id=control_box_id, values=values)
     return {
         'status': True,
