@@ -29,7 +29,7 @@ class Room_Type(Base):
 
 
 def create_room_type(db: Session, asset_type_id: int=0, name: str=None, description: str=None, file_url: str=None, slug: str=None, value_code: str=None, status: int=0, created_by: int=0, updated_by: int=0):
-    room_type = Room_Type(asset_type_id=asset_type_id, name=name, description=description, file_url=file_url, slug=slug, value_code=value_code, status=status,status=status, created_by=created_by, updated_by=updated_by, created_at=get_laravel_datetime(), updated_at=get_laravel_datetime())
+    room_type = Room_Type(asset_type_id=asset_type_id, name=name, description=description, file_url=file_url, slug=slug, value_code=value_code, status=status, created_by=created_by, updated_by=updated_by, created_at=get_laravel_datetime(), updated_at=get_laravel_datetime())
     db.add(room_type)
     db.commit()
     db.refresh(room_type)
