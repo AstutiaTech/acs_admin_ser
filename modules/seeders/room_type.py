@@ -40,5 +40,5 @@ def seed_room_type(db: Session):
     if len(seed) > 0:
         for i in range(len(seed)):
             slug = slugify(input_string=seed[i]['name'], strip='_')
-            create_room_type(db=db, asset_type_id=seed[i]['asset_type_id'], name=seed[i]['name'], description=seed[i]['description'], slug=slug, file_url=seed[i]['file_url'], value_code=seed[i]['value_code'], status=1, created_by=1)
+            create_room_type(db=db, asset_type_id=seed[i]['asset_type_id'], name=seed[i]['name'], description=None, slug=slug, file_url=seed[i]['file_url'], value_code=seed[i]['value_code'], status=1, created_by=1)
     return True
